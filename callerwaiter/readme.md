@@ -1,6 +1,44 @@
     
- 
+   ## Endpoints
+   (partial listings)
+   
+   ```python
+	@app.route('/account/createtable', methods=['POST'])
+	@login_required
+	def account_createtable():
+		pass
+
+	@app.route('/account/deletetable')
+	@login_required
+	def account_deletetable():
+		tableid = request.args.get('tableid')   #difference between request.form.get and request.args.get
+		pass
+
+	@app.route("/newrequest/<tid>")
+	def new_request(tid):
+		if DB.add_request(tid, datetime.datetime.now()):
+			return "Your request has been logged and a waiter will be with you shortly"
+    return "There is already a request pending for this table. Please be patient, a waiter will be there ASAP"
+   
+	@app.route("/dashboard")
+	@login_required
+	def dashboard():
+		now = datetime.datetime.now()
+		requests = DB.get_requests(current_user.get_id())
+		for req in requests:
+			deltaseconds = (now - req['time']).seconds
+			req['wait_minutes'] = "{}.{}".format((deltaseconds/60), str(deltaseconds % 60).zfill(2))
+		return render_template("dashboard.html", requests=requests)
+		
+	@app.route("/dashboard/resolve")
+	@login_required
+	def dashboard_resolve():
+		pass
+   ```
+	
    ## Files used
+   (partial listings)
+   
    forms.py (for upgrade): 
    ```python
     from flask_wtf import Form
@@ -31,10 +69,64 @@
 		submit = SubmitField('createtablesubmit', validators=[validators.DataRequired()])
    ```    
    
-   Library to use in dbhelper.py:
+   Excerpt from dbhelper.py:
    ```python
    import pymongo
-   from bson import ObjectId
+   from bson import ObjectId  # you need this to cast string into _id object
+
+   DATABASE = "waitercaller"
+
+   class DBHelper:
+		def __init__(self):
+			client = pymongo.MongoClient()
+			self.db = client[DATABASE]
+			
+		def get_user(self, email):
+			pass
+
+		def add_user(self, email, salt, hashed):
+			pass
+
+		def add_table(self, number, owner):
+			pass
+
+		def update_table(self, _id, url):
+			pass
+
+		def get_tables(self, owner_id):
+			pass
+
+		def get_table(self, tableid):
+			pass
+
+		def delete_table(self, table_id):
+			pass
+
+		def add_request(self, table_id, time):
+			pass
+
+		def get_requests(self, owner_id):
+			pass
+
+		def delete_request(self, request_id):
+			pass
+   ```
+   
+   ## Mongo
+   
+   Mongo database for callerwaiter:
+   <img width="80%" border="30" src="https://user-images.githubusercontent.com/13763933/29879726-21163b82-8dd0-11e7-9457-74bc64e66867.jpg"/>
+   <br><br>
+   Make email in users table unique. Also make table_id in requests table unique.<br>
+   create_mongo_indices.py:
+   
+   ```python
+	import pymongo
+	
+	client = pymongo.MongoClient()
+	c = client['waitercaller']
+	print c.users.create_index("email", unique=True)
+	print c.requests.create_index("table_id", unique=True)
    ```
    ## Essential Bootstrap Format
    Download link: <a href="http://getbootstrap.com/docs/3.3/getting-started/#download">Bootstrap v3.3.7</a>
@@ -216,3 +308,6 @@
 		.................................................
 		..................................................
 	{% endblock %}
+   ```
+   
+	 ## Appendix
