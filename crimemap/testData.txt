@@ -1,5 +1,0 @@
-import sqlite3
-from db_helper import DB_Helper
-
-returnedData = DB_Helper.get_all()
-returnedData2 = DB_Helper.get_all_crimes()

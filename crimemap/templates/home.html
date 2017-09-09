@@ -11,7 +11,7 @@
                   var marker;
                   function initialize() {
                     var mapOptions = {
-                      center: new google.maps.LatLng(-33.30578381949298, 26.523442268371582),
+                      center: new google.maps.LatLng(1.290795, 103.823097),
                       zoom: 15
                     };
                     map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -75,7 +75,14 @@
 
                   <input type="submit" value="Submit">
             </form>
+
+
       </div>
+      <br/><br/>
+      
+      <form action="/clear" >
+        <input type="submit" value="Clear Data">
+      </form>
     </body>
 
 </html>

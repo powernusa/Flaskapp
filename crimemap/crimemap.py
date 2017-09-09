@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect,url_for
 from db_helper import DB_Helper
 import json
 
@@ -18,13 +18,13 @@ def submitcrime():
     longitude = float(request.form.get("longitude"))
     description = request.form.get("description")
     DB_Helper.add_crime(category, date, latitude, longitude, description)
-    return home()
+    return redirect(url_for('home'))
 
 @app.route('/clear')
 def clear_db():
     DB_Helper.clear()
-    return home()
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5003, debug=True)

@@ -4,25 +4,6 @@ import datetime
 class DB_Helper():
 
     @classmethod
-    def insert_item(cls,item):
-        connection = sqlite3.connect('crimemap.db')
-        cursor = connection.cursor()
-        query = "INSERT INTO crimes (description) VALUES (?)"
-        cursor.execute(query, (item,))
-        connection.commit()
-        connection.close()
-
-    @classmethod
-    def get_all(cls):
-        connection = sqlite3.connect('crimemap.db')
-        cursor = connection.cursor()
-        query = "SELECT description FROM crimes"
-        result = cursor.execute(query)
-        data = result.fetchall()
-        connection.close()
-        return data
-
-    @classmethod
     def get_all_crimes(cls):
         connection = sqlite3.connect('crimemap.db')
         cursor = connection.cursor()
@@ -43,7 +24,6 @@ class DB_Helper():
 
         connection.close()
         return named_crimes
-
 
     @classmethod
     def clear(cls):
