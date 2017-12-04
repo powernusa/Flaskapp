@@ -2,7 +2,7 @@
    ## Google Map and autocomplete in modal dialog and radio input
 
    
-   Modal dialog:
+   Modal dialog:<br>
    <img width="80%" border="30" src="https://user-images.githubusercontent.com/13763933/33554743-921d6a48-d930-11e7-8c98-1924a9551ecb.jpg"/>
    <br><br>
    Style in mainpageloggedin:
